@@ -9,9 +9,14 @@ class User
 	public   $username;
 	public   $password;
 
-	// welche Funktionen braucht ein User ? 
+
 	function __construct( $id )
 	{	
+        if( $id < 1 ) // wenn leerer user >> mache nichts 
+        {
+        	return;
+        }
+
 		// user über ID aus DB lesen und in PHP Variablen schreiben
 		$db  = new DB();
 		$res = $db->query( "SELECT * FROM user WHERE id = ". $id );
@@ -22,6 +27,18 @@ class User
 		$this->username = $row['username'];
 		$this->password = $row['password'];		
 	}
+
+	function create()
+	{
+		$db  = new DB();
+
+		$sql = " INSERT INTO user  ( username                 , password                   )  
+		                     VALUES 
+		                           ( '". $this->username ."'  ,   '". $this->password ."'  ) ";
+
+		$res = $db->query( $sql );				
+	}
+
 }
 
 

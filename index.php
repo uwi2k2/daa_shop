@@ -1,9 +1,15 @@
 <?php  
   
-  require( "model/user.php" );
-  
-  $user1 = new User( 1 );
-  
-  print_r( $user1 ); 
+  require("model/user.php");
+
+  $user = new User( 0 ); // einen LEEREN User anlegen 
+
+  $user->username = "hans_wurst";
+  $user->password = "98765432";
+
+
+
+  print_r( $user );
+
 
 ?>

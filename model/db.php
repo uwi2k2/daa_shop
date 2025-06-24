@@ -15,25 +15,27 @@ class DB
   function __construct()
   {
 	  // Verbindung aufbauen 
-	  $this->con = mysqli_connect(  $this->host    , 
-									$this->db_user , 
-									$this->db_pass ,
-									$this->db_name , 
-									$this->port     );
+	  $this->con = mysqli_connect(   $this->host    , 
+              									   $this->db_user , 
+              									   $this->db_pass ,
+              									   $this->db_name , 
+              									   $this->port     );
   }
   
+
   function query( $sql_txt )
   {
-	 $result = mysqli_query(  $this->con ,  $sql_txt  );  
-	 
-	 return $result;
+  	 $result = mysqli_query(  $this->con ,  $sql_txt  );  
+  	 
+  	 return $result;
   }
+  
   
   function nextRow( $result )
   {
-	 $row = mysqli_fetch_assoc( $result );
+  	 $row = mysqli_fetch_assoc( $result );
 
-	 return $row;
+  	 return $row;
   }
   
 
