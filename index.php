@@ -2,14 +2,9 @@
   
   require("model/user.php");
 
-  $user = new User( 0 ); // einen LEEREN User anlegen 
+  // "::" << statische Funktion ansprechen 
+  $all_user = User::getAll();
 
-  $user->username = "hans_wurst";
-  $user->password = "98765432";
-
-
-
-  print_r( $user );
-
+  print_r( $all_user );
 
 ?>
