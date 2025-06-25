@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `daa_shop`
 --
-
+CREATE DATABASE daa_shop;
 -- --------------------------------------------------------
 
 --

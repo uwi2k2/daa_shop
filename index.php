@@ -4,18 +4,15 @@
   require("model/artikel.php");
 
 
-  $art_new               = new Artikel( 5 );
-  $art_new->name         = "zzzzzz";
-  $art_new->beschreibung = "wwwwwwww";
-  $art_new->preis        = 999.999;
-  $art_new->update();
-  
-  $art_new->del();
+  // eine HTML Tabelle mit allen Usern erstellen 
+  $all_user = User::getAll();
 
-
-  // "::" << statische Funktion ansprechen 
-  $all = Artikel::getAll();
-
-  print_r( $all );
+  // mit einer schleife über alle User iterieren 
+  foreach( $all_user as $one_user )
+  {
+     echo $one_user->getId()  ." | ";
+     echo $one_user->username ." | ";
+     echo $one_user->password ."<br>";
+  }
 
 ?>

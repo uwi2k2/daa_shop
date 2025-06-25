@@ -34,6 +34,13 @@ class User
 		}	
 	}
 
+
+	public function getId()  // Getter 
+	{
+		return $this->id;
+	}
+
+
 	function create()
 	{
 		$db  = new DB();
@@ -68,10 +75,11 @@ class User
 		$this->update();
 	}
 
+
 	static function getAll()
 	{
 		$db  = new DB();
-		$sql = "SELECT * FROM user WHERE deleted = 0 ";
+		$sql = "SELECT id FROM user WHERE deleted = 0 ";
         $res = $db->query( $sql );
 
         $rueckgabe = array(); // leeres array für rückgabe machen
