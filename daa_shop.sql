@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 24. Jun 2025 um 14:54
+-- Erstellungszeit: 25. Jun 2025 um 11:50
 -- Server-Version: 10.4.32-MariaDB
 -- PHP-Version: 8.0.30
 
@@ -20,7 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `daa_shop`
 --
-CREATE DATABASE daa_shop;
+CREATE DATABASE IF NOT EXISTS `daa_shop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `daa_shop`;
+
 -- --------------------------------------------------------
 
 --
@@ -75,7 +77,8 @@ INSERT INTO `user` (`id`, `username`, `password`, `deleted`) VALUES
 (7, 'hans_wurst', '98765432', 0),
 (8, 'hans_wurst', '98765432', 1),
 (11, 'hans_wurst', '98765432', 0),
-(12, 'hans_wurst', '98765432', 0);
+(12, 'hans_wurst', '98765432', 0),
+(13, 'aus_html', 'html123', 0);
 
 --
 -- Indizes der exportierten Tabellen
@@ -107,7 +110,7 @@ ALTER TABLE `artikel`
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
