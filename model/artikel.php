@@ -63,8 +63,7 @@ class Artikel
 								    deleted		  =  ". $this->deleted      ."  
 							   WHERE
 								    id = ". $this->id ."
-								 ";								 
-
+								 ";								 	    
         $db->query( $sql );
 	} 
 
