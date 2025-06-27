@@ -6,6 +6,7 @@ class User
 {
 	// welche Variablen braucht ein User ?
     private  $id;
+    public   $api_id;
 	public   $username;
 	public   $password;
 	private  $deleted;
@@ -29,6 +30,7 @@ class User
 		{
 			// db werte in php kopieren 
 			$this->id       = $id;
+			$this->api_id   = $id;
 			$this->username = $row['username'];
 			$this->password = $row['password'];	
 		}	

@@ -9,7 +9,7 @@ function listArtikel()
 	  // mit einer schleife über alle User iterieren 
 	  foreach( $all as $one )
 	  {
-	     echo "<a href='index.php?action=edit_artikel&id=".  $one->getId()   ."' >";
+	     echo "<a href='index.php?action=editArtikel&id=".  $one->getId()   ."' >";
 	     echo $one->getId()  ." - ";
 	     echo $one->name ." - ";
 	     echo $one->preis ." <br> ";
@@ -22,7 +22,7 @@ function editArtikel()
 {
    $art = new Artikel(  $_GET['id']  );
    ?>
-	  <form action="index.php?action=save_artikel"  method="POST" >	
+	  <form action="index.php?action=saveArtikel"  method="POST" >	
 
 		  	<input type="hidden"   name="id"     value="<?php echo $art->getId(); ?>"  >
 		  	<input type="text"     name="name"   value="<?php echo $art->name; ?>"  >
@@ -55,7 +55,7 @@ function saveArtikel()
 	  }
 
 	  // weiterleiten auf die index.php
-	  header( "Location:index.php?action=list_artikel" );
+	  header( "Location:index.php?action=listArtikel" );
 }
 
 

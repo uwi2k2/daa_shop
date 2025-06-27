@@ -9,9 +9,22 @@
   
 
   // naviagtion einbinden
-  $nav_html = file_get_contents( "view/nav.html" );
-  
-  echo $nav_html;
+  if(  isset( $_GET['action'] )  == true  )
+  {
+    // wenn "API" NICHT in der ACTION vorkommt  
+    // dann NAV laden und anzeigen  
+     if( substr_count( $_GET['action'] , "API" ) < 1 )
+     {
+        $nav_html = file_get_contents( "view/nav.html" );
+        echo $nav_html;    
+     }
+  }
+  else
+  {
+      $nav_html = file_get_contents( "view/nav.html" );
+      echo $nav_html;       
+  }
+
 
 
   // --- Routing ---
@@ -21,47 +34,19 @@
      listUser();
   }
 
-  // ------- USER ACTIONS -------
-
-  // index.php?action=list_user
-  else if(  $_GET['action'] == "list_user"  )
+  // Wir 'verstecken' in der action den Namen der 
+  // Funktion die aufgreufen werden soll 
+  else
   {
-      listUser();
-  }
+      $name_der_function = $_GET['action'];
 
-  // index.php?action=edit_user
-  else if(  $_GET['action'] == "edit_user"  )
-  {
-      editUser();
-  } 
-
-  // index.php?action=save_user
-  else if(  $_GET['action'] == "save_user"  )
-  {
-      saveUser();
+      call_user_func( $name_der_function );
   }
 
 
 
-  // ------- ARTIKEL ACTIONS -------
 
-  // index.php?action=list_artikel
-  else if(  $_GET['action'] == "list_artikel"  )
-  {
-      listArtikel();
-  }
 
-  // index.php?action=edit_artikel
-  else if(  $_GET['action'] == "edit_artikel"  )
-  {
-      editArtikel();
-  } 
-
-  // index.php?action=save_artikel
-  else if(  $_GET['action'] == "save_artikel"  )
-  {
-      saveArtikel();
-  }        
 
 
 ?>

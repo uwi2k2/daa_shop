@@ -9,12 +9,22 @@ function listUser()
 	  // mit einer schleife über alle User iterieren 
 	  foreach( $all_user as $one_user )
 	  {
-	     echo "<a href='index.php?action=edit_user&id=".  $one_user->getId()   ."' >";
+	     echo "<a href='index.php?action=editUser&id=".  $one_user->getId()   ."' >";
 	     echo $one_user->getId()  ." - ";
 	     echo $one_user->username ." <br> ";
 	     echo "</a>";
 	  }  
 }
+
+
+function API_listUser()
+{
+	  // eine HTML Tabelle mit allen Usern erstellen 
+	  $all_user = User::getAll();
+
+	  echo json_encode( $all_user );	 
+}
+
 
 
 function editUser()
@@ -52,6 +62,26 @@ function saveUser()
 
 	  // weiterleiten auf die index.php
 	  header( "Location:index.php" );
+}
+
+
+function API_saveUser()
+{
+	  $user = new User(  $_POST['api_id']  );
+
+	  $user->username  =  $_POST['username'];
+	  $user->password  =  $_POST['password'];
+
+	  if(  $_POST['id'] > 0 )
+	  {
+	    $user->update();
+	  }
+	  else
+	  {
+	    $user->create();
+	  }	  
+
+	  die( "ok" );
 }
 
 
