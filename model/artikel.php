@@ -36,6 +36,13 @@ class Artikel
 		}	
 	}
 
+
+	public function getId()  // Getter 
+	{
+		return $this->id;
+	}
+	
+
 	function create()
 	{
 		$db  = new DB();

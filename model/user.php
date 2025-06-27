@@ -1,6 +1,6 @@
 <?php
 
-require_once( "model/db.php" );
+require_once( "db.php" );
 
 class User
 {
