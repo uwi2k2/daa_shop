@@ -26,7 +26,6 @@
   }
 
 
-
   // naviagtion einbinden
   if(  isset( $_GET['action'] )  == true  )
   {
@@ -35,23 +34,13 @@
      if( substr_count( $_GET['action'] , "API" ) < 1 )
      {
         $nav_html = file_get_contents( "view/nav.html" );
-
-        // nur wenn jemand eingeloggt ist -> die Nav anzeigen 
-        if( isset( $_SESSION['user_id'] ) == true  )
-        {
-           echo $nav_html;    
-        }
+        echo $nav_html;    
      }
   }
   else
   {
       $nav_html = file_get_contents( "view/nav.html" );
-
-      // nur wenn jemand eingeloggt ist -> die Nav anzeigen 
-      if( isset( $_SESSION['user_id'] ) == true  )
-      {
-         echo $nav_html;    
-      }      
+      echo $nav_html;       
   }
 
 

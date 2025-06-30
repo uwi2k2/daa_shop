@@ -41,18 +41,12 @@ function editArtikel()
 function saveArtikel()
 {
 	  $art 					=  new Artikel( $_POST['id'] );
+
 	  $art->name         =  $_POST['name'];
 	  $art->preis        =  $_POST['preis'];
 	  $art->beschreibung =  $_POST['beschreibung'];
 
-	  if(  $_POST['id'] > 0 )
-	  {
-	    $art->update();
-	  }
-	  else
-	  {
-	    $art->create();
-	  }
+	  $art->save();
 
 	  // weiterleiten auf die index.php
 	  header( "Location:index.php?action=listArtikel" );

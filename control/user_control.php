@@ -44,14 +44,7 @@ function saveUser()
 
 	  $user->password  =  $hash_password;
 
-	  if(  $_POST['id'] > 0 )
-	  {
-	    $user->update();
-	  }
-	  else
-	  {
-	    $user->create();
-	  }
+	  $user->save(); // <<< das wollen wir haben !!! 
 
 	  // weiterleiten auf die index.php
 	  header( "Location:index.php" );

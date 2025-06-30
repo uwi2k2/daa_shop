@@ -81,6 +81,21 @@ class Artikel
 		$this->update();
 	}
 
+
+	function save()
+	{
+	  if(  $this->id > 0 )
+	  {
+	    $this->update();
+	  }
+	  else
+	  {
+	    $this->create();
+	  }		
+	}
+
+
+
 	static function getAll()
 	{
 		$db  = new DB();
