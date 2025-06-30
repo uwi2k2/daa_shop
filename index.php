@@ -1,5 +1,11 @@
 <?php  
   
+  session_start();
+
+  // das Password mit SALT `hashen` 
+  const SALT  = "ljgf542ök345gl2h62ökh452hj436";
+
+
   // die einzige Stelle für IMPORTS !! 
   require("model/user.php");  // User - Model 
   require("control/user_control.php"); // User - Controller
@@ -16,13 +22,23 @@
      if( substr_count( $_GET['action'] , "API" ) < 1 )
      {
         $nav_html = file_get_contents( "view/nav.html" );
-        echo $nav_html;    
+
+        // nur wenn jemand eingeloggt ist -> die Nav anzeigen 
+        if( isset( $_SESSION['user_id'] ) == true  )
+        {
+           echo $nav_html;    
+        }
      }
   }
   else
   {
       $nav_html = file_get_contents( "view/nav.html" );
-      echo $nav_html;       
+      
+      // nur wenn jemand eingeloggt ist -> die Nav anzeigen 
+      if( isset( $_SESSION['user_id'] ) == true  )
+      {
+         echo $nav_html;    
+      }      
   }
 
 
@@ -36,6 +52,7 @@
 
   // Wir 'verstecken' in der action den Namen der 
   // Funktion die aufgreufen werden soll 
+  // index.php?action=listUser
   else
   {
       $name_der_function = $_GET['action'];

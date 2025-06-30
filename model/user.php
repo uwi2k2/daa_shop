@@ -96,6 +96,58 @@ class User
         return $rueckgabe;
 	}
 
+
+	static function getUserData( $username , $password  )
+	{
+		$db  = new DB();
+
+		$sql = "SELECT id FROM  user 
+						  WHERE deleted  = 0 AND 
+						        username = '". $username ."' AND
+						        password = '". $password ."'     ";
+
+        $res = $db->query( $sql );
+
+        // wie viele Regebniszeilen sind im Result ???
+        if(  $res->num_rows == 1 )
+        {
+        	// die ID des Users zurückgeben
+        	 $row = $db->nextRow( $res ) ;
+
+        	 return $row['id'];
+        } 
+        else
+        {
+        	return 0; // keinen User (oder mehrere) gefunden 
+        }
+	}
+
+
+	static function checkUserData( $username , $password  )
+	{
+		$db  = new DB();
+
+		$sql = "SELECT id FROM  user 
+						  WHERE deleted  = 0 AND 
+						        username = '". $username ."' AND
+						        password = '". $password ."'     ";
+
+        $res = $db->query( $sql );
+
+        // wie viele Regebniszeilen sind im Result ???
+        if(  $res->num_rows == 1 )
+        {
+        	// die ID des Users zurückgeben
+        	 $row = $db->nextRow( $res ) ;
+
+        	 return $row['id'];
+        } 
+        else
+        {
+        	return 0; // keinen User (oder mehrere) gefunden 
+        }
+	}
+
 }
 
 

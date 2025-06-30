@@ -17,21 +17,11 @@ function listUser()
 }
 
 
-function API_listUser()
-{
-	  // eine HTML Tabelle mit allen Usern erstellen 
-	  $all_user = User::getAll();
-
-	  echo json_encode( $all_user );	 
-}
-
-
-
 function editUser()
 {
    $user = new User(  $_GET['id']  );
    
-   //#1 - das html des View in eine Variable laden
+   //#1 - das html des VIEW in eine Variable laden
    $html = file_get_contents( "view/edit_user.html" );
 
    //#2 - dei Platzhalter duch php Variablen(Werte) ersetzen
@@ -49,7 +39,10 @@ function saveUser()
 	  $user = new User(  $_POST['id']  );
 
 	  $user->username  =  $_POST['username'];
-	  $user->password  =  $_POST['password'];
+
+	  $hash_password   = md5(  SALT  .  $_POST['password'] );
+
+	  $user->password  =  $hash_password;
 
 	  if(  $_POST['id'] > 0 )
 	  {
@@ -62,6 +55,51 @@ function saveUser()
 
 	  // weiterleiten auf die index.php
 	  header( "Location:index.php" );
+}
+
+
+// zeigt das LogIn Formular an
+function login()
+{
+	$html = file_get_contents( "view/login.html" );
+
+	echo $html;
+}
+
+
+// prüft ob LogIn Daten OK 
+function checkLogin()
+{
+   // prüfen ob ein User mit dieser USERNAME / PASSWORD 
+	// Kombination in DB zu finden ist
+
+   // Das Passwort für den Vergleich mit der DB hashen 
+   $hash_pass = md5( SALT . $_POST['password'] );
+
+   $user_id = User::checkUserData( $_POST['username']  ,  $hash_pass  );
+
+   if( $user_id > 0 )
+   {
+   	// in Sitzung User(id) speichern
+      $_SESSION['user_id'] = $user_id;
+      
+      echo "Sie sind jetzt eingelogt.";
+   }
+}
+
+
+
+
+
+////// ab hier die API Funktionen /////////////
+
+// https://127.0.0.1/daa/index.php?action=API_listUser
+function API_listUser()
+{
+	  // eine HTML Tabelle mit allen Usern erstellen 
+	  $all_user = User::getAll();
+
+	  echo json_encode( $all_user );	 
 }
 
 
