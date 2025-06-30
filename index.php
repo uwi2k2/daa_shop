@@ -14,6 +14,19 @@
   require("control/artikel_control.php"); // Artikel - Controller
   
 
+  // wenn kein User eingeloggt ist
+  // und nicht das Login Formular gezeigt werden soll 
+  // weiterleitung auf login Formular 
+  if( isset( $_SESSION['user_id'] ) == false  && 
+      $_GET['action'] != "login"              && 
+      $_GET['action'] != "checkLogin"   )
+  {
+      header( "Location:index.php?action=login" );
+      die();
+  }
+
+
+
   // naviagtion einbinden
   if(  isset( $_GET['action'] )  == true  )
   {
@@ -33,7 +46,7 @@
   else
   {
       $nav_html = file_get_contents( "view/nav.html" );
-      
+
       // nur wenn jemand eingeloggt ist -> die Nav anzeigen 
       if( isset( $_SESSION['user_id'] ) == true  )
       {

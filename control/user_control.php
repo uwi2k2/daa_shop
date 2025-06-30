@@ -82,12 +82,19 @@ function checkLogin()
    {
    	// in Sitzung User(id) speichern
       $_SESSION['user_id'] = $user_id;
-      
-      echo "Sie sind jetzt eingelogt.";
+
+      header("Location:index.php");      
    }
 }
 
 
+// user wieder ausloggen > session löschen 
+function logout()
+{
+	unset(  $_SESSION['user_id'] );
+
+	header("Location:index.php"); 
+}
 
 
 
