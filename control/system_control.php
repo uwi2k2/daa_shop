@@ -3,15 +3,12 @@
 
 function ausgabeHTML( $inhalt )
 {
-	// naviagtion laden und anzeigen
-	if( isset( $_SESSION['user_id'] ) == true )
-	{
-		$nav = file_get_contents( "view/nav.html" );
-		echo $nav;
-	}
+	$html = file_get_contents("view/index.html");
+
+	$html = str_replace( "###CONTENT###" , $inhalt, $html );
 
 	// ausgabe und beenden von PHP
-    die( $inhalt );
+    die( $html );
 }
 
 
