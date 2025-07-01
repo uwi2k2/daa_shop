@@ -13,6 +13,10 @@
   require("model/artikel.php");  // Artikel - Model 
   require("control/artikel_control.php"); // Artikel - Controller
   
+  require("model/kategorie.php");  // kategorie - Model 
+  require("control/kategorie_control.php"); // kategorie - Controller
+  
+
 
   // wenn kein User eingeloggt ist
   // und nicht das Login Formular gezeigt werden soll 
