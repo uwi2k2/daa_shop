@@ -15,6 +15,8 @@
   
   require("model/kategorie.php");  // kategorie - Model 
   require("control/kategorie_control.php"); // kategorie - Controller
+
+  require("control/system_control.php"); // system - Controller
   
 
 
@@ -27,24 +29,6 @@
   {
       header( "Location:index.php?action=login" );
       die();
-  }
-
-
-  // naviagtion einbinden
-  if(  isset( $_GET['action'] )  == true  )
-  {
-    // wenn "API" NICHT in der ACTION vorkommt  
-    // dann NAV laden und anzeigen  
-     if( substr_count( $_GET['action'] , "API" ) < 1 )
-     {
-        $nav_html = file_get_contents( "view/nav.html" );
-        echo $nav_html;    
-     }
-  }
-  else
-  {
-      $nav_html = file_get_contents( "view/nav.html" );
-      echo $nav_html;       
   }
 
 

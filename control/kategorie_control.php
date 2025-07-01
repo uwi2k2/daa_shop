@@ -5,33 +5,39 @@ function listKategorie()
 	  // eine HTML Tabelle mit allen Kategorie erstellen 
 	  $all = Kategorie::getAll();
 
+	  $out = "";
+
 	  // mit einer schleife über alle Kategorie iterieren 
 	  foreach( $all as $one )
 	  {
-	     echo "<a href='index.php?action=editKategorie&id=". $one->getId() ."' >";
-	     echo $one->getId()  ." - ";
-	     echo $one->name ."  ";
-	     echo "</a> <br>";
+	     $out .= "<a href='index.php?action=editKategorie&id=". $one->getId() ."' >";
+	     $out .= $one->getId()  ." - ";
+	     $out .= $one->name ."  ";
+	     $out .= "</a> <br>";
 	  }  
+
+	  ausgabeHTML( $out );
 }
+
 
 
 function editKategorie()
 {
    $elm = new Kategorie(  $_GET['id']  );
-   ?>
-	  <form action="index.php?action=saveKategorie"  method="POST" >	
 
-		  	<input type="hidden"   name="id"     value="<?php echo $elm->getId(); ?>"  >
-		  	<input type="text"     name="name"   value="<?php echo $elm->name; ?>"  >
-		  	<br>
-		  	<textarea name="beschreibung" ><?php echo $elm->beschreibung; ?></textarea>
-	      <br>
-		  	<input type="submit"   value="speichern" >
+   //#1 - das html des VIEW in eine Variable laden
+   $html = file_get_contents( "view/edit_kategorie.html" );
 
-	  </form>    
-   <?php
+   //#2 - dei Platzhalter duch php Variablen(Werte) ersetzen
+   $html = str_replace( "###ID###"           , $elm->getId()      , $html );
+   $html = str_replace( "###NAME###"         , $elm->name         , $html );
+   $html = str_replace( "###BESCHREIBUNG###" , $elm->beschreibung , $html );
+
+   //#3 - das html mit den richtigen Inhalten ausgeben 
+   ausgabeHTML( $html ); 
 }
+
+
 
 
 function saveKategorie()
