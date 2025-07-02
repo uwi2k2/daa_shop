@@ -18,6 +18,7 @@
 
   require("control/system_control.php"); // system - Controller
   
+  loadENV();
 
 
   // wenn kein User eingeloggt ist

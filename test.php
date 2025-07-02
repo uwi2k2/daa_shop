@@ -1,17 +1,5 @@
 <?php
 
-
-function ausgabeHTML( $inhalt )
-{
-	$html = file_get_contents("view/index.html");
-
-	$html = str_replace( "###CONTENT###" , $inhalt, $html );
-
-	// ausgabe und beenden von PHP
-    die( $html );
-}
-
-
 function loadENV()
 {
 		$lines = file( "conf.env" );
@@ -31,8 +19,6 @@ function loadENV()
 			$_ENV[ $teile[0] ] = $teile[1];
 		} 
 }
-
-
 
 
 

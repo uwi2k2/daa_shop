@@ -4,21 +4,27 @@
 class DB
 {
   // Instanz Variablen 
-  private $host    = "127.0.0.1";
-  private $port    = 3306;
-  private $db_user = "root"; 
-  private $db_pass = ""; 
-  private $db_name = "daa_shop";
+  private $host    = null;
+  private $port    = null;
+  private $db_user = null; 
+  private $db_pass = null; 
+  private $db_name = null;
   
   private $con     = null;
 
   // SINGLETON  
   // speicher "DIE EINE" DB Instanz 
   static public $instance = null;
-  
-  
+    
   function __construct()
   {
+      $this->host    = $_ENV['DB_HOST'];
+      $this->port    = $_ENV['DB_PORT'];
+      $this->db_user = $_ENV['DB_USER']; 
+      $this->db_pass = $_ENV['DB_PASS']; 
+      $this->db_name = $_ENV['DB_NAME'];
+
+
       // Verbindung aufbauen 
       $this->con = mysqli_connect(   $this->host    , 
                                      $this->db_user , 
