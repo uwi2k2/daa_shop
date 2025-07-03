@@ -20,9 +20,9 @@ class Kategorie
 
 		// user über ID aus DB lesen und in PHP Variablen schreiben
 		$db  = DB::getInstanz();
-		$res = $db->query( "SELECT * FROM kategorie 
-									 WHERE deleted = 0 AND  
-									       id      = ". $id );
+		$sql = "SELECT * FROM kategorie  WHERE deleted = 0 AND id = :id ";
+		$dat = [ 'id' => $id ];
+		$res = $db->query( $sql ,  $dat );
 		$row = $db->nextRow( $res );
 		
 		if( $row ) 
@@ -47,11 +47,16 @@ class Kategorie
 		$db  = DB::getInstanz();
 
 		$sql = " INSERT INTO kategorie  
-		                   (    name              ,   beschreibung                , deleted  )  
+		                   (   name   ,   beschreibung   , deleted  )  
 		             VALUES 
-		                   ( '". $this->name ."'  ,  '". $this->beschreibung ."'  , 0     	) ";
+		                   (   :name  ,  :beschreibung   , 0     	) ";
 
-		$res = $db->query( $sql );				
+		$data = [
+					':name' 		=> $this->name , 
+					':beschreibung' => $this->beschreibung  
+				];
+
+		$res = $db->query( $sql , $data );				
 	}
 
 
@@ -59,13 +64,21 @@ class Kategorie
 	{
 		$db  = DB::getInstanz();
 
-		$sql = "UPDATE kategorie SET  name 	          = '". $this->name         ."' ,
-								      beschreibung    = '". $this->beschreibung ."' ,  
-								      deleted		  =  ". $this->deleted      ."  
+		$sql = "UPDATE kategorie SET  name 	          = :name          ,
+								      beschreibung    = :beschreibung  ,  
+								      deleted		  = :deleted    
 							   WHERE
-								      id = ". $this->id ."
-								 ";								 	    
-        $db->query( $sql );
+								      id 			  = :id
+								 ";	
+
+		$data = [
+					':name' 		=> $this->name          , 
+					':beschreibung' => $this->beschreibung  , 
+					':deleted' 		=> $this->deleted 		, 
+					':id' 			=> $this->id  
+				];
+
+        $db->query( $sql , $data );
 	} 
 
 
@@ -93,7 +106,8 @@ class Kategorie
 	{
 		$db  = DB::getInstanz();
 		$sql = "SELECT * FROM kategorie WHERE deleted = 0 ";
-        $res = $db->query( $sql );
+		$dat = [];
+        $res = $db->query( $sql , $dat );
 
         $rueckgabe = array(); // leeres array für rückgabe machen
 

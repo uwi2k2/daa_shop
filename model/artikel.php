@@ -20,10 +20,11 @@ class Artikel
         }
 
 		// user über ID aus DB lesen und in PHP Variablen schreiben
-		$db  = DB::getInstanz();
-		$res = $db->query( "SELECT * FROM artikel 
-									 WHERE deleted = 0 AND  id = ". $id );
-		$row = $db->nextRow( $res );
+		$db   = DB::getInstanz();
+		$sql  = "SELECT * FROM artikel  WHERE deleted = 0 AND  id =  :id ";
+		$data = [ ':id' => $id ];									 
+		$res  = $db->query( $sql , $data );
+		$row  = $db->nextRow( $res );
 		
 		if( $row ) 
 		{
@@ -51,12 +52,17 @@ class Artikel
 									    beschreibung ,
 									    preis  )  
 		                     VALUES 
-		                           ( '". $this->name ."'  ,   
-		                           	 '". $this->beschreibung ."'  ,
-		                           	 '". $this->preis ."'  
-		                           	) ";
+		                           ( :name           ,   
+		                           	 :beschreibung   ,
+		                           	 :preis      	) ";
 
-		$res = $db->query( $sql );				
+        $data = [
+        			':name' 		=> $this->name , 
+        			':beschreibung' => $this->beschreibung , 
+        			':preis' 		=> $this->preis  
+        ];		                           
+
+		$res = $db->query( $sql , $data );				
 	}
 
 
@@ -64,14 +70,23 @@ class Artikel
 	{
 		$db = DB::getInstanz();
 
-		$sql = "UPDATE artikel SET  name 	      = '". $this->name         ."' ,
-								    beschreibung  = '". $this->beschreibung ."' , 
-								    preis  		  = '". $this->preis        ."' , 
-								    deleted		  =  ". $this->deleted      ."  
+		$sql = "UPDATE artikel SET  name 	      = :name          ,
+								    beschreibung  = :beschreibung  , 
+								    preis  		  = :preis         , 
+								    deleted		  = :deleted     
 							   WHERE
-								    id = ". $this->id ."
-								 ";								 	    
-        $db->query( $sql );
+								    id 			  = :id
+								 ";	
+
+        $data = [
+        			':name' 		=> $this->name         , 
+        			':beschreibung' => $this->beschreibung , 
+        			':preis' 		=> $this->preis        ,
+        			':deleted' 		=> $this->deleted      ,
+        			':id' 			=> $this->id  
+        ];
+
+        $db->query( $sql , $data );
 	} 
 
 
@@ -100,7 +115,8 @@ class Artikel
 	{
 		$db  = DB::getInstanz();
 		$sql = "SELECT * FROM artikel WHERE deleted = 0 ";
-        $res = $db->query( $sql );
+		$data = [];
+        $res = $db->query( $sql , $data );
 
         $rueckgabe = array(); // leeres array für rückgabe machen
 
