@@ -9,6 +9,7 @@ class Artikel
 	public   $name;
 	public   $beschreibung;
 	public   $preis;
+	public   $kat_id;
 	private  $deleted;
 
 
@@ -33,6 +34,7 @@ class Artikel
 			$this->name 		= $row['name'];
 			$this->beschreibung = $row['beschreibung'];	
 			$this->preis        = $row['preis'];	
+			$this->kat_id       = $row['kat_id'];	
 			$this->deleted      = $row['deleted'];	
 		}	
 	}
@@ -48,18 +50,21 @@ class Artikel
 	{
 		$db  = DB::getInstanz();
 
-		$sql = " INSERT INTO artikel  ( name  , 
+		$sql = " INSERT INTO artikel  ( name         , 
 									    beschreibung ,
-									    preis  )  
+									    preis        ,
+									    kat_id      )  
 		                     VALUES 
 		                           ( :name           ,   
 		                           	 :beschreibung   ,
-		                           	 :preis      	) ";
+		                           	 :preis      	 ,
+		                           	 :kat_id           ) ";
 
         $data = [
-        			':name' 		=> $this->name , 
+        			':name' 		=> $this->name         , 
         			':beschreibung' => $this->beschreibung , 
-        			':preis' 		=> $this->preis  
+        			':preis' 		=> $this->preis        , 
+        			':kat_id' 		=> $this->kat_id         
         ];		                           
 
 		$res = $db->query( $sql , $data );				
@@ -73,7 +78,8 @@ class Artikel
 		$sql = "UPDATE artikel SET  name 	      = :name          ,
 								    beschreibung  = :beschreibung  , 
 								    preis  		  = :preis         , 
-								    deleted		  = :deleted     
+								    deleted		  = :deleted       ,
+								    kat_id		  = :kat_id       
 							   WHERE
 								    id 			  = :id
 								 ";	
@@ -83,7 +89,8 @@ class Artikel
         			':beschreibung' => $this->beschreibung , 
         			':preis' 		=> $this->preis        ,
         			':deleted' 		=> $this->deleted      ,
-        			':id' 			=> $this->id  
+        			':id' 			=> $this->id  		   ,
+        			':kat_id' 	    => $this->kat_id  		   
         ];
 
         $db->query( $sql , $data );

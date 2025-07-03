@@ -36,6 +36,25 @@ function editArtikel()
    $html = str_replace( "###PREIS###"        , $art->preis        , $html );
    $html = str_replace( "###BESCHREIBUNG###" , $art->beschreibung , $html );
 
+   // die html kategorie OPTION Tags erstellen 
+   $all_kat = Kategorie::getAll();
+   
+   $opt_tags = "";
+
+   foreach( $all_kat as $one_kat )
+   {
+   	if( $one_kat->getId() == $art->kat_id  )
+   	{
+   		$opt_tags .= "<option value=". $one_kat->getId() ." selected >". $one_kat->name ."</option>";
+   	}
+   	else
+   	{
+         $opt_tags .= "<option value=". $one_kat->getId() ." >". $one_kat->name ."</option>";
+   	}   	
+   }
+
+   $html = str_replace( "###KAT_OPTIONS###"  , $opt_tags 				, $html );
+
    //#3 - das html mit den richtigen Inhalten ausgeben 
    ausgabeHTML( $html );   
 }
@@ -51,6 +70,7 @@ function saveArtikel()
 	  $art->name         =  $_POST['name'];
 	  $art->preis        =  $_POST['preis'];
 	  $art->beschreibung =  $_POST['beschreibung'];
+	  $art->kat_id       =  $_POST['kat_id'];
 
 	  $art->save();
 
