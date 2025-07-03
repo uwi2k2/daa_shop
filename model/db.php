@@ -25,14 +25,33 @@ class DB
       $this->db_name = $_ENV['DB_NAME'];
 
 
+      // DB Verbindung über 'PDO' Klasse aus PHP
+      $connect_string = "mysql:host=". $this->host .";dbname=". $this->db_name .";charset=utf8mb4";
+      
       // Verbindung aufbauen 
-      $this->con = mysqli_connect(   $this->host    , 
-                                     $this->db_user , 
-                                     $this->db_pass ,
-                                     $this->db_name , 
-                                     $this->port     );
-      echo "<h3> Neue Verbindung .............</h3> \n ";
+      $this->con = new PDO( $connect_string ,  $this->db_user  ,  $this->db_pass );
   }
+
+
+  function query( $sql_txt , $werte_array )
+  {
+     $result = $this->con->prepare( $sql_txt );
+
+     $result->execute( $werte_array  );  
+     
+     return $result;
+  }
+
+
+  function nextRow( $result )
+  {
+     $row = $result->fetch( PDO::FETCH_ASSOC );
+
+     return $row;
+  }
+
+
+
 
   public static function getInstanz()
   {
@@ -49,20 +68,13 @@ class DB
   }
   
 
-  function query( $sql_txt )
-  {
-  	 $result = mysqli_query(  $this->con ,  $sql_txt  );  
-  	 
-  	 return $result;
-  }
-  
-  
-  function nextRow( $result )
-  {
-  	 $row = mysqli_fetch_assoc( $result );
 
-  	 return $row;
-  }
+
+
+  
+  
+
+
   
 
 }

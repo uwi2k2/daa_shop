@@ -21,9 +21,14 @@ class User
 
 		// user über ID aus DB lesen und in PHP Variablen schreiben
 		$db  = DB::getInstanz();
-		$res = $db->query( "SELECT * FROM user 
-									 WHERE deleted = 0 AND
-									       id = ". $id );
+
+		$sql_txt   = "SELECT * FROM  user 
+							   WHERE deleted = 0 AND
+									 id = :id  ";
+		$sql_werte = [ ':id' => $id ];
+
+		$res = $db->query(  $sql_txt ,  $sql_werte );
+
 		$row = $db->nextRow( $res );
 		
 		if( $row ) //  ur wenn es eine Zeile gibt 
@@ -50,10 +55,13 @@ class User
 		$sql = " INSERT INTO user  ( username  , 
 									 password   )  
 		                     VALUES 
-		                           ( '". $this->username ."'  ,   
-		                           	 '". $this->password ."'  ) ";
+		                           ( :username  ,   
+		                           	 :password  ) ";
 
-		$res = $db->query( $sql );				
+		$data = [ ':username' => $this->username ,
+				  ':password' => $this->password ];
+
+		$res = $db->query( $sql , $data );				
 	}
 
 
@@ -61,13 +69,20 @@ class User
 	{
 		$db = DB::getInstanz();
 
-		$sql = "UPDATE user SET  username = '". $this->username ."' ,
-								 password = '". $this->password ."' , 
-								 deleted  = '". $this->deleted  ."'  
+		$sql = "UPDATE user SET  username = :username  ,
+								 password = :password  , 
+								 deleted  = :deleted  
 							WHERE
-								 id = ". $this->id ."
-								 ";
-        $db->query( $sql );
+								 id 	  = :id ";
+
+	    $data = [ 
+		    	':username' => $this->username ,
+		    	':password' => $this->password ,
+		    	':deleted'  => $this->deleted ,
+		    	':id' 		=> $this->id 
+	    		];
+
+        $db->query( $sql , $data  );
 	} 
 
 
@@ -93,9 +108,10 @@ class User
 
 	static function getAll()
 	{
-		$db  = DB::getInstanz();
-		$sql = "SELECT id FROM user WHERE deleted = 0 ";
-        $res = $db->query( $sql );
+		$db   = DB::getInstanz();
+		$sql  = "SELECT id FROM user WHERE deleted = 0 ";
+		$data = [];
+        $res  = $db->query( $sql , $data );
 
         $rueckgabe = array(); // leeres array für rückgabe machen
 
@@ -110,45 +126,23 @@ class User
 	}
 
 
-	static function getUserData( $username , $password  )
-	{
-		$db  = DB::getInstanz();
-
-		$sql = "SELECT id FROM  user 
-						  WHERE deleted  = 0 AND 
-						        username = '". $username ."' AND
-						        password = '". $password ."'     ";
-
-        $res = $db->query( $sql );
-
-        // wie viele Regebniszeilen sind im Result ???
-        if(  $res->num_rows == 1 )
-        {
-        	// die ID des Users zurückgeben
-        	 $row = $db->nextRow( $res ) ;
-
-        	 return $row['id'];
-        } 
-        else
-        {
-        	return 0; // keinen User (oder mehrere) gefunden 
-        }
-	}
-
-
+	
 	static function checkUserData( $username , $password  )
 	{
 		$db  = DB::getInstanz();
 
 		$sql = "SELECT id FROM  user 
 						  WHERE deleted  = 0 AND 
-						        username = '". $username ."' AND
-						        password = '". $password ."'     ";
+						        username = :username  AND
+						        password = :password    ";
 
-        $res = $db->query( $sql );
+        $data = [ ':username' => $username , 
+        		  ':password' => $password ];						        
 
-        // wie viele Regebniszeilen sind im Result ???
-        if(  $res->num_rows == 1 )
+        $res = $db->query( $sql , $data );
+
+        // wie viele Ergebniszeilen sind im Result ???
+        if(  $res->rowCount() == 1 )
         {
         	// die ID des Users zurückgeben
         	 $row = $db->nextRow( $res ) ;
