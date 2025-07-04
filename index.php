@@ -10,6 +10,9 @@
   require("model/user.php");  // User - Model 
   require("control/user_control.php"); // User - Controller
 
+  require("model/usertype.php");  // Usertype - Model 
+  require("control/usertype_control.php"); // Usertype - Controller
+
   require("model/artikel.php");  // Artikel - Model 
   require("control/artikel_control.php"); // Artikel - Controller
   

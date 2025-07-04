@@ -2,26 +2,22 @@
 
 require_once( "model/db.php" );
 
-class Kategorie
+class UserType
 {
-	// welche Variablen braucht ein Kategorie ?
     private  $id;
 	public   $name;
-	public   $beschreibung;
-	public   $eltern_kat_id;
 	private  $deleted;
 
 
 	function __construct( $id )
 	{	
-        if( $id < 1 ) // wenn leerer Kategorie >> mache nichts 
+        if( $id < 1 ) 
         {
         	return;
         }
-
-		// user über ID aus DB lesen und in PHP Variablen schreiben
+		
 		$db  = DB::getInstanz();
-		$sql = "SELECT * FROM kategorie  WHERE deleted = 0 AND id = :id ";
+		$sql = "SELECT * FROM usertype  WHERE deleted = 0 AND id = :id ";
 		$dat = [ 'id' => $id ];
 		$res = $db->query( $sql ,  $dat );
 		$row = $db->nextRow( $res );
@@ -30,9 +26,7 @@ class Kategorie
 		{
 			// db werte in php kopieren 
 			$this->id       	 = $id;
-			$this->name 		 = $row['name'];
-			$this->beschreibung  = $row['beschreibung'];		
-			$this->eltern_kat_id = $row['eltern_kat_id'];		
+			$this->name 		 = $row['name'];		
 			$this->deleted       = $row['deleted'];	
 		}	
 	}
@@ -48,15 +42,13 @@ class Kategorie
 	{
 		$db  = DB::getInstanz();
 
-		$sql = " INSERT INTO kategorie  
-		                   (   name   ,   beschreibung  ,  eltern_kat_id  , deleted  )  
+		$sql = " INSERT INTO usertype  
+		                   (    name    ,  deleted  )  
 		             VALUES 
-		                   (   :name  ,  :beschreibung  , :eltern_kat_id  , 0     	) ";
+		                   (   :name    ,   0     	) ";
 
 		$data = [
-					':name' 		 => $this->name          , 
-					':beschreibung'  => $this->beschreibung  , 
-					':eltern_kat_id' => $this->eltern_kat_id  
+					':name'  => $this->name          
 				];
 
 		$res = $db->query( $sql , $data );				
@@ -67,19 +59,15 @@ class Kategorie
 	{
 		$db  = DB::getInstanz();
 
-		$sql = "UPDATE kategorie SET  name 	          = :name           ,
-								      beschreibung    = :beschreibung   ,  
-								      eltern_kat_id   = :eltern_kat_id  ,  
+		$sql = "UPDATE usertype SET   name 	          = :name    ,
 								      deleted		  = :deleted    
 							   WHERE
 								      id 			  = :id
 								 ";	
 
 		$data = [
-					':name' 		 => $this->name           , 
-					':beschreibung'  => $this->beschreibung   , 
-					':eltern_kat_id' => $this->eltern_kat_id  , 
-					':deleted' 		 => $this->deleted 		  , 
+					':name' 		 => $this->name    , 
+					':deleted' 		 => $this->deleted , 
 					':id' 			 => $this->id  
 				];
 
@@ -110,7 +98,7 @@ class Kategorie
 	static function getAll()
 	{
 		$db  = DB::getInstanz();
-		$sql = "SELECT * FROM kategorie WHERE deleted = 0 ";
+		$sql = "SELECT * FROM usertype WHERE deleted = 0 ";
 		$dat = [];
         $res = $db->query( $sql , $dat );
 
@@ -120,7 +108,7 @@ class Kategorie
         while(    $row = $db->nextRow( $res )    )  
         {
         	//  []  << heißt: neues Elment hinten ans Array dranhängen
-        	$rueckgabe[] = new Kategorie(  $row['id']  );
+        	$rueckgabe[] = new UserType(  $row['id']  );
         }
 
         return $rueckgabe;

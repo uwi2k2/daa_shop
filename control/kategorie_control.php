@@ -33,6 +33,25 @@ function editKategorie()
    $html = str_replace( "###NAME###"         , $elm->name         , $html );
    $html = str_replace( "###BESCHREIBUNG###" , $elm->beschreibung , $html );
 
+   // für alle Kategorien eine HTML Option erstellen
+   $all = Kategorie::getAll();
+
+   $html_opt = "";
+
+   foreach(  $all as $one  )
+   {
+   	if( $one->getId() == $elm->eltern_kat_id )
+   	{
+   		$html_opt .= "<option value=". $one->getId() ." selected >". $one->name ."</option>";
+		}
+		else
+		{
+   		$html_opt .= "<option value=". $one->getId() ." >". $one->name ."</option>";
+   	}
+   }
+
+   $html = str_replace( "###HTML_OPT###" , $html_opt , $html );
+
    //#3 - das html mit den richtigen Inhalten ausgeben 
    ausgabeHTML( $html ); 
 }
@@ -42,10 +61,11 @@ function editKategorie()
 
 function saveKategorie()
 {
-	  $elm 					=  new Kategorie( $_POST['id'] );
+	  $elm 					 =  new Kategorie( $_POST['id'] );
 
-	  $elm->name         =  $_POST['name'];
-	  $elm->beschreibung =  $_POST['beschreibung'];
+	  $elm->name          =  $_POST['name'];
+	  $elm->beschreibung  =  $_POST['beschreibung'];
+	  $elm->eltern_kat_id =  $_POST['eltern_kat_id'];
 
 	  $elm->save();
 
