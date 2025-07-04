@@ -32,6 +32,27 @@ function editUser()
    $html = str_replace( "###USERNAME###" , $user->username , $html );
    $html = str_replace( "###PASSWORD###" , $user->password , $html );
 
+
+   // alle UserTypen Laden und dafür HTML Options machen 
+   $all = UserType::getAll();
+
+   $html_opt = "";
+
+   foreach( $all as $one )
+   {
+   	if( $one->getId() == $user->usertype_id )
+   	{
+   	   $html_opt .= "<option value=". $one->getId() ." selected  >". $one->name ."</option>";
+      }
+      else
+      {
+   	   $html_opt .= "<option value=". $one->getId() ." >". $one->name ."</option>";
+   	}
+   }
+
+   $html = str_replace( "###HTML_OPT###" , $html_opt , $html );
+
+
    //#3 - das html mit den richtigen Inhalten ausgeben 
    ausgabeHTML( $html );
 }
@@ -41,7 +62,8 @@ function saveUser()
 {
 	  $user = new User(  $_POST['id']  );
 
-	  $user->username  =  $_POST['username'];
+	  $user->username     =  $_POST['username'];
+	  $user->usertype_id  =  $_POST['usertype_id'];
 
 	  $hash_password   = md5(  SALT  .  $_POST['password'] );
 

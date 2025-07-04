@@ -9,6 +9,7 @@ class User
     public   $api_id;
 	public   $username;
 	public   $password;
+	public   $usertype_id;
 	private  $deleted;
 
 
@@ -34,10 +35,11 @@ class User
 		if( $row ) //  ur wenn es eine Zeile gibt 
 		{
 			// db werte in php kopieren 
-			$this->id       = $id;
-			$this->api_id   = $id;
-			$this->username = $row['username'];
-			$this->password = $row['password'];	
+			$this->id          = $id;
+			$this->api_id      = $id;
+			$this->username    = $row['username'];
+			$this->password    = $row['password'];	
+			$this->usertype_id = $row['usertype_id'];	
 		}	
 	}
 
@@ -52,14 +54,18 @@ class User
 	{
 		$db  = DB::getInstanz();
 
-		$sql = " INSERT INTO user  ( username  , 
-									 password   )  
+		$sql = " INSERT INTO user  ( username    , 
+									 password    ,
+									 usertype_id   )  
 		                     VALUES 
-		                           ( :username  ,   
-		                           	 :password  ) ";
+		                           ( :username     ,   
+		                           	 :password     ,
+		                           	 :usertype_id  ) ";
 
-		$data = [ ':username' => $this->username ,
-				  ':password' => $this->password ];
+		$data = [ ':username'    => $this->username    ,
+				  ':password'    => $this->password    ,
+				  ':usertype_id' => $this->usertype_id 
+				];
 
 		$res = $db->query( $sql , $data );				
 	}
@@ -69,17 +75,19 @@ class User
 	{
 		$db = DB::getInstanz();
 
-		$sql = "UPDATE user SET  username = :username  ,
-								 password = :password  , 
-								 deleted  = :deleted  
+		$sql = "UPDATE user SET  username    = :username  ,
+								 password    = :password  , 
+								 usertype_id = :usertype_id  , 
+								 deleted     = :deleted  
 							WHERE
-								 id 	  = :id ";
+								 id 	     = :id ";
 
 	    $data = [ 
-		    	':username' => $this->username ,
-		    	':password' => $this->password ,
-		    	':deleted'  => $this->deleted ,
-		    	':id' 		=> $this->id 
+		    	':username'    => $this->username    ,
+		    	':password'    => $this->password    ,
+		    	':usertype_id' => $this->usertype_id ,
+		    	':deleted'     => $this->deleted     ,
+		    	':id' 		   => $this->id 
 	    		];
 
         $db->query( $sql , $data  );
